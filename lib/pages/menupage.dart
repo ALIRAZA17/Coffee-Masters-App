@@ -9,19 +9,20 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        ProductItem(
-          product: Product(id: 1, name: "Black Coffee", price: 2.99, image: ""),
-          addProductToCart: () {},
-        ),
-        ProductItem(
-          product: Product(
-              id: 2, name: "Dummy Product Much Larger", price: 2.99, image: ""),
-          addProductToCart: () {},
-        ),
-      ],
-    );
+    return FutureBuilder(builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        //Future has completed
+      }
+
+      if (snapshot.hasError) {
+        // Future has error
+      } else {
+        // Future is still running
+        const CircularProgressIndicator();
+      }
+
+      return Text("Hello");
+    });
   }
 }
 

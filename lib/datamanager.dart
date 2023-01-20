@@ -1,8 +1,34 @@
+import 'dart:convert';
+
 import 'package:coffee_masters/datamodel.dart';
+import 'package:http/http.dart' as http;
 
 class DataManager {
   List<Category>? _menu;
   List<ItemInCart> cart = [];
+
+  // Dart doesnt have a method to convert json to objects of a class so we have to do it manually
+
+  fetchMenu() async {
+    const url = 'https://firtman.github.io/coffeemasters/api/menu.json';
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var json = response.body;
+      _menu = [];
+      var decodedData = jsonDecode(json) as List<dynamic>;
+      for (var json in decodedData) {
+        var category = Category.fromJson(json);
+        _menu!.add(category);
+      }
+    }
+  }
+
+  Future<List<Category>> getMenu() async {
+    if (_menu == null) {
+      await fetchMenu();
+    }
+    return _menu!;
+  }
 
   cartAdd(Product p) {
     bool found = false;
