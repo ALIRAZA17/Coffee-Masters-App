@@ -1,8 +1,4 @@
-# coffee_masters
-
-Coffee Masters
-
-## Getting Started
+# Coffee Maters
 
 This is cross Platform Mobile Application which can be used by different coffee shops for managing their orders and providing the menu they have. This app runs both on IOS and Android with equal compatability.
 
