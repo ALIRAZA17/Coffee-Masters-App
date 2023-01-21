@@ -9,28 +9,60 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        //Future has completed
-      }
+    return FutureBuilder(
+      // specify where the future is actually created
+      future: dataManager.getMenu(),
+      builder: (
+        context,
+        snapshot,
+      ) {
+        if (snapshot.hasData) {
+          //Future has completed
+          var categories = snapshot.data! as List<Category>;
 
-      if (snapshot.hasError) {
-        // Future has error
-      } else {
-        // Future is still running
-        const CircularProgressIndicator();
-      }
-
-      return Text("Hello");
-    });
+          return ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(categories[index].name),
+                  ),
+                  ListView.builder(
+                    itemCount: categories[index].products.length,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemBuilder: (context, prodIndex) {
+                      var product = categories[index].products[prodIndex];
+                      return ProductItem(
+                        product: product,
+                        onAdd: (addedproduct) {
+                          dataManager.cartAdd(addedproduct);
+                        },
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          if (snapshot.hasError) {
+            return const Text("Error");
+          } else {
+            return const CircularProgressIndicator();
+          }
+        }
+      },
+    );
   }
 }
 
 class ProductItem extends StatelessWidget {
   final Product product;
-  final Function addProductToCart;
-  const ProductItem(
-      {Key? key, required this.product, required this.addProductToCart})
+  final Function onAdd;
+  const ProductItem({Key? key, required this.product, required this.onAdd})
       : super(key: key);
 
   @override
@@ -45,8 +77,8 @@ class ProductItem extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Image.asset(
-                  "images/black_coffee.png",
+                child: Image.network(
+                  product.imageUrl,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -66,7 +98,7 @@ class ProductItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "\$${product.price}",
+                          "\$${product.price.toStringAsFixed(2)}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -77,7 +109,11 @@ class ProductItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: ElevatedButton(
-                        onPressed: addProductToCart(), child: Text("Add")),
+                      onPressed: () {
+                        onAdd(product);
+                      },
+                      child: const Text("Add"),
+                    ),
                   )
                 ],
               ),
