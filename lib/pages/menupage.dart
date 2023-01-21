@@ -27,7 +27,11 @@ class MenuPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(categories[index].name),
+                    child: Text(
+                      categories[index].name,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 23),
+                    ),
                   ),
                   ListView.builder(
                     itemCount: categories[index].products.length,

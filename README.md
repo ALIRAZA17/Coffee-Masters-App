@@ -1,16 +1,13 @@
 # coffee_masters
 
-A new Flutter project.
+Coffee Masters
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is cross Platform Mobile Application which can be used by different coffee shops for managing their orders and providing the menu they have. This app runs both on IOS and Android with equal compatability.
 
-A few resources to get you started if this is your first Flutter project:
+## Menu Page
+![MenuPage](MenuPage.jpg)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Orders Page
+![OrdersPage](OrdersPage.jpg)
